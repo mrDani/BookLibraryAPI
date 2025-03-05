@@ -1,0 +1,15 @@
+<h1>Books</h1>
+
+<%= form_with url: books_path, method: :get, local: true do %>
+  <%= label_tag :search, "Search Books:" %>
+  <%= text_field_tag :search, params[:search] %>
+  <%= submit_tag "Search" %>
+<% end %>
+
+<ul>
+  <% @books.each do |book| %>
+    <li><%= link_to book.title, book_path(book) %> by <%= book.author.name %></li>
+  <% end %>
+</ul>
+
+<%= paginate @books %>

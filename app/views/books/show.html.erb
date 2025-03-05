@@ -1,0 +1,11 @@
+<h1><%= @book.title %></h1>
+
+<% if @book.cover_url %>
+  <img src="<%= @book.cover_url %>" alt="Book Cover">
+<% end %>
+
+<h2>Author</h2>
+<p><%= link_to @book.author.name, author_path(@book.author) %></p>
+
+<h2>Published Year</h2>
+<p><%= @book.published_year %></p>
