@@ -3,8 +3,10 @@ class BooksController < ApplicationController
     @books = if params[:search]
                Book.where("title ILIKE ?", "%#{params[:search]}%")
              else
-               Book.order(:title).page(params[:page]).per(10)
+               Book.order(:title)
              end
+
+    @books = @books.page(params[:page]).per(10) # Ensure pagination is applied
   end
 
   def show

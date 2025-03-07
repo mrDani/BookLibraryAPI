@@ -1,15 +1,26 @@
-<h1>Books</h1>
+<h1 class="text-center">📚 Books</h1>
 
-<%= form_with url: books_path, method: :get, local: true do %>
-  <%= label_tag :search, "Search Books:" %>
-  <%= text_field_tag :search, params[:search] %>
-  <%= submit_tag "Search" %>
-<% end %>
-
-<ul>
-  <% @books.each do |book| %>
-    <li><%= link_to book.title, book_path(book) %> by <%= book.author.name %></li>
+<!-- Search Bar -->
+<div class="search-bar text-center">
+  <%= form_with url: books_path, method: :get, local: true do %>
+    <%= text_field_tag :search, params[:search], placeholder: "Search Books...", class: "form-control" %>
   <% end %>
-</ul>
+</div>
+
+<!-- Books Grid -->
+<div class="book-grid">
+  <% @books.each do |book| %>
+    <div class="book-card">
+      <% if book.cover_url %>
+        <img src="<%= book.cover_url %>" alt="<%= book.title %>">
+      <% end %>
+      <div class="book-card-body">
+        <p class="book-card-title"><%= book.title %></p>
+        <p class="book-card-author"><%= book.author.name %></p>
+        <%= link_to "View Details", book_path(book), class: "btn btn-primary btn-sm" %>
+      </div>
+    </div>
+  <% end %>
+</div>
 
 <%= paginate @books %>

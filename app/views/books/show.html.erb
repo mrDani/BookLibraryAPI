@@ -1,11 +1,13 @@
-<h1><%= @book.title %></h1>
-
-<% if @book.cover_url %>
-  <img src="<%= @book.cover_url %>" alt="Book Cover">
-<% end %>
-
-<h2>Author</h2>
-<p><%= link_to @book.author.name, author_path(@book.author) %></p>
-
-<h2>Published Year</h2>
-<p><%= @book.published_year %></p>
+<div class="container text-center">
+  <div class="card p-4">
+    <% if @book.cover_url %>
+      <img src="<%= @book.cover_url %>" class="rounded mx-auto d-block" alt="<%= @book.title %>" style="max-width: 300px;">
+    <% end %>
+    <div class="card-body">
+      <h1 class="text-dark"><%= @book.title %></h1>
+      <h3 class="text-muted">by <%= link_to @book.author.name, author_path(@book.author), class: "text-info" %></h3>
+      <p class="lead">Published Year: <%= @book.published_year %></p>
+      <%= link_to "Back to Books", books_path, class: "btn btn-outline-secondary mt-3" %>
+    </div>
+  </div>
+</div>
