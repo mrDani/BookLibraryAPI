@@ -20,6 +20,10 @@ end
 queries = ["science fiction", "history", "fantasy", "philosophy"]
 books_data = queries.flat_map { |query| fetch_books(query) }
 
+# Create sample genres
+genres = ["Science Fiction", "History", "Fantasy", "Philosophy", "Mystery", "Horror", "Romance"]
+genres.each { |name| Genre.find_or_create_by!(name: name) }
+
 books_data.each do |book_data|
   next unless book_data["title"] && book_data["author_name"]
 
@@ -27,12 +31,15 @@ books_data.each do |book_data|
     a.birth_date = book_data["author_birth_date"]&.first
   end
 
-  Book.create!(
+  book = Book.create!(
     title: book_data["title"],
     published_year: book_data["first_publish_year"],
     cover_url: book_data["cover_i"] ? "https://covers.openlibrary.org/b/id/#{book_data['cover_i']}-L.jpg" : nil,
     author: author
   )
+
+  # Assign random genres to books
+  book.genres << Genre.order("RANDOM()").limit(rand(1..3))
 end
 
-puts "✅ Book and Author data imported!"
+puts "✅ Books, Authors, and Genres imported successfully!"
