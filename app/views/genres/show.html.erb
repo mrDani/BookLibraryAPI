@@ -1,0 +1,20 @@
+<h1 class="text-center"><%= @genre.name %></h1>
+
+<h2>Books in this Genre</h2>
+
+<div class="book-grid">
+  <% @books.each do |book| %>
+    <div class="book-card">
+      <% if book.cover_url %>
+        <img src="<%= book.cover_url %>" alt="<%= book.title %>">
+      <% end %>
+      <div class="book-card-body">
+        <p class="book-card-title"><%= book.title %></p>
+        <p class="book-card-author"><%= book.author.name %></p>
+        <%= link_to "View Details", book_path(book), class: "btn btn-primary btn-sm" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= paginate @books %>
