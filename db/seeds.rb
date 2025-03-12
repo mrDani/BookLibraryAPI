@@ -66,7 +66,7 @@ puts "Books, Authors, and Genres imported successfully!"
   book = Book.create!(
     title: Faker::Book.title,
     published_year: rand(1900..2025),
-    cover_url: nil,
+    cover_url: "https://picsum.photos/200/300?random=#{rand(1..1000)}",
     author: author
   )
 
