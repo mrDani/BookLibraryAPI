@@ -3,9 +3,14 @@
 <!-- Search Bar -->
 <div class="search-bar text-center">
   <%= form_with url: books_path, method: :get, local: true do %>
-    <%= text_field_tag :search, params[:search], placeholder: "Search Books...", class: "form-control" %>
+    <%= text_field_tag :search, params[:search], placeholder: "Search Books...", class: "form-control mb-2" %>
+
+    <%= select_tag :genre_id, options_from_collection_for_select(@genres, :id, :name, params[:genre_id]), include_blank: "All Genres", class: "form-control mt-2" %>
+
+    <%= submit_tag "Search", class: "btn btn-primary mt-3" %>
   <% end %>
 </div>
+
 
 <!-- Books Grid -->
 <div class="book-grid">
