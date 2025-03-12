@@ -6,3 +6,6 @@
     <li><%= link_to book.title, book_path(book) %></li>
   <% end %>
 </ul>
+
+<%= link_to '⬅️ Go Back', request.referer || authors_path, class: 'btn btn-secondary mt-4' %>
+
