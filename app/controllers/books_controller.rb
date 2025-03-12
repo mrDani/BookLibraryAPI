@@ -1,15 +1,16 @@
 class BooksController < ApplicationController
   def index
-    @books = if params[:search]
-               Book.where("title ILIKE ?", "%#{params[:search]}%")
-             else
-               Book.order(:title)
-             end
+    @genres = Genre.order(:name)
+    @books = Book.order(:title)
 
-    @books = @books.page(params[:page]).per(10) # Ensure pagination is applied
-  end
+    if params[:search].present?
+      @books = @books.where("title ILIKE ?", "%#{params[:search]}%")
+    end
 
-  def show
-    @book = Book.find(params[:id])
+    if params[:genre_id].present?
+      @books = @books.joins(:genres).where(genres: { id: params[:genre_id] })
+    end
+
+    @books = @books.page(params[:page]).per(10)
   end
 end
