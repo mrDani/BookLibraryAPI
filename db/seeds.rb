@@ -8,6 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 require 'httparty'
+require 'faker'
 
 # Fetch books from Open Library API
 def fetch_books(query)
@@ -51,3 +52,25 @@ books_data.each do |book_data|
 end
 
 puts "Books, Authors, and Genres imported successfully!"
+
+
+
+
+# Faker Books and Authors
+10.times do
+  author = Author.create!(
+    name: Faker::Book.author,
+    birth_date: Faker::Date.birthday(min_age: 30, max_age: 80).to_s
+  )
+
+  book = Book.create!(
+    title: Faker::Book.title,
+    published_year: rand(1900..2025),
+    cover_url: nil,
+    author: author
+  )
+
+  # Assign random genres
+  book.genres << Genre.order("RANDOM()").limit(rand(1..3))
+end
+
