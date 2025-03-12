@@ -36,8 +36,13 @@ books_data.each do |book_data|
 
   book = Book.find_or_create_by!(title: book_data["title"], author: author) do |b|
     b.published_year = book_data["first_publish_year"]
-    b.cover_url = book_data["cover_i"] ? "https://covers.openlibrary.org/b/id/\#{book_data['cover_i']}-L.jpg" : nil
+    if book_data["cover_i"]
+      b.cover_url = "https://covers.openlibrary.org/b/id/#{book_data['cover_i']}-L.jpg"
+    else
+      b.cover_url = nil
+    end
   end
+  
 
   # Assign genres only if the book doesn't already have genres
   if book.genres.empty?
