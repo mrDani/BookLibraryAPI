@@ -17,6 +17,7 @@
   <% end %>
 </div>
 
+<%= link_to '⬅️ Go Back', request.referer || books_path, class: 'btn btn-secondary mt-4' %>
 
 
 <%= paginate @books %>

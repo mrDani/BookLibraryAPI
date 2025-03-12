@@ -4,4 +4,7 @@
     <li><%= link_to author.name, author_path(author) %></li>
   <% end %>
 </ul>
+
+<%= link_to '⬅️ Back to Books', books_path, class: 'btn btn-secondary mt-4' %>
+
 <%= paginate @authors %>

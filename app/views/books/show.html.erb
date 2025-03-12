@@ -1,20 +1,27 @@
 <div class="container text-center">
   <div class="card p-4">
-    <% if @book.cover_url %>
+    <% if @book && @book.cover_url %>
       <img src="<%= @book.cover_url %>" class="rounded mx-auto d-block" alt="<%= @book.title %>" style="max-width: 300px;">
     <% end %>
-    <div class="card-body">
-      <h1 class="text-dark"><%= @book.title %></h1>
-      <h3 class="text-muted">by <%= link_to @book.author.name, author_path(@book.author), class: "text-info" %></h3>
-      <p class="lead">Published Year: <%= @book.published_year %></p>
 
-      <h4>Genres:</h4>
-      <% @book.genres.each do |genre| %>
-        <span class="badge badge-primary"><%= genre.name %></span>
+    <div class="card-body">
+      <% if @book %>
+        <h1><%= @book.title %></h1>
+        <p><strong>Author:</strong> <%= link_to @book.author.name, author_path(@book.author) %></p>
+        <p><strong>Published Year:</strong> <%= @book.published_year %></p>
+
+        <p><strong>Genres:</strong></p>
+        <ul>
+          <% @book.genres.each do |genre| %>
+            <li><%= link_to genre.name, genre_path(genre) %></li>
+          <% end %>
+        </ul>
+
+      <% else %>
+        <p class="alert alert-warning">This book doesn't exist or was deleted.</p>
       <% end %>
 
+      <%= link_to '⬅️ Go Back', request.referer || books_path, class: 'btn btn-secondary mt-4' %>
     </div>
   </div>
-  <%= link_to '⬅️ Go Back', request.referer || books_path, class: 'btn btn-secondary mt-4' %>
-
 </div>

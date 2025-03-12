@@ -13,4 +13,11 @@ class BooksController < ApplicationController
 
     @books = @books.page(params[:page]).per(10)
   end
+  def show
+    @book = Book.find_by(id: params[:id])
+
+    if @book.nil?
+      redirect_to books_path, alert: "Book not found."
+    end
+  end
 end
