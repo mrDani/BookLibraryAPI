@@ -9,6 +9,7 @@
 #   end
 require 'httparty'
 
+# Fetch books from Open Library API
 def fetch_books(query)
   url = "https://openlibrary.org/search.json?q=#{query}&limit=10"
   response = HTTParty.get(url)
@@ -17,13 +18,15 @@ def fetch_books(query)
   response.parsed_response["docs"]
 end
 
+
 queries = ["science fiction", "history", "fantasy", "philosophy"]
 books_data = queries.flat_map { |query| fetch_books(query) }
 
-# Create sample genres
+# Create genres
 genres = ["Science Fiction", "History", "Fantasy", "Philosophy", "Mystery", "Horror", "Romance"]
 genres.each { |name| Genre.find_or_create_by!(name: name) }
 
+# Seed books and authors
 books_data.each do |book_data|
   next unless book_data["title"] && book_data["author_name"]
 
@@ -31,15 +34,15 @@ books_data.each do |book_data|
     a.birth_date = book_data["author_birth_date"]&.first
   end
 
-  book = Book.create!(
-    title: book_data["title"],
-    published_year: book_data["first_publish_year"],
-    cover_url: book_data["cover_i"] ? "https://covers.openlibrary.org/b/id/#{book_data['cover_i']}-L.jpg" : nil,
-    author: author
-  )
+  book = Book.find_or_create_by!(title: book_data["title"], author: author) do |b|
+    b.published_year = book_data["first_publish_year"]
+    b.cover_url = book_data["cover_i"] ? "https://covers.openlibrary.org/b/id/\#{book_data['cover_i']}-L.jpg" : nil
+  end
 
-  # Assign random genres to books
-  book.genres << Genre.order("RANDOM()").limit(rand(1..3))
+  # Assign genres only if the book doesn't already have genres
+  if book.genres.empty?
+    book.genres << Genre.where(name: genres.sample(rand(1..3)))
+  end
 end
 
-puts "✅ Books, Authors, and Genres imported successfully!"
+puts "Books, Authors, and Genres imported successfully!"

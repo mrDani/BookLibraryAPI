@@ -1,2 +1,42 @@
-<h1>About the Book Library</h1>
-<p>This project pulls book and author data from the <a href="https://openlibrary.org/">Open Library API</a>.</p>
+<div class="container my-5">
+  <h1>About the Book Library Project</h1>
+
+  <section class="mt-4">
+    <h2>Dataset Description</h2>
+    <p>
+      This project uses the <strong>Open Library API</strong> as its primary data source. Open Library provides extensive data about books, authors, genres, and publishing information. For each book, we gather data such as:
+    </p>
+    <ul>
+      <li><strong>Book title</strong></li>
+      <li><strong>Cover image</strong></li>
+      <li><strong>Published year</strong></li>
+      <li><strong>Author information</strong> (name, birthdate)</li>
+      <li><strong>Genre information</strong></li>
+    </ul>
+    <p>
+      The data is structured into multiple related tables:
+    </p>
+    <ul>
+      <li><strong>Authors</strong>: id, name, birth_date</li>
+      <li><strong>Books</strong>: id, title, published_year, cover_url, author_id (Foreign Key)</li>
+      <li><strong>Genres</strong>: id, name</li>
+      <li><strong>BookGenres</strong> (Join Table): id, book_id, genre_id (Foreign Keys)</li>
+    </ul>
+    <p>
+      Relationships include:
+      <ul>
+        <li><strong>Authors to Books</strong>: One-to-many (An author has many books)</li>
+        <li><strong>Books to Genres</strong>: Many-to-many (A book can have multiple genres, and genres can have multiple books)</li>
+      </ul>
+    </p>
+  </section>
+
+  <section class="mt-5">
+    <h2>Database ERD Diagram</h2>
+    <p>The Entity Relationship Diagram below visually represents the database structure and relationships used in this application:</p>
+    <img src="<%= asset_path('erd.jpg') %>" 
+     alt="Database ERD Diagram"
+     style="max-width: 100%; width: 900px; height: auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
+
+  </section>
+</div>
