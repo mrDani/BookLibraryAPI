@@ -61,4 +61,4 @@ gem 'faker'
 gem 'kaminari' # Pagination
 gem 'dotenv-rails' # API Keys (if needed later)
 gem 'httparty' # API Requests
-gem 'bootstrap', '~> 5.2.0'
+gem 'bootstrap', '~> 5.3.3'
